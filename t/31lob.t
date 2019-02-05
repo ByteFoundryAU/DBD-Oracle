@@ -219,6 +219,6 @@ END_SQL
 
 undef $sth;
 
-END { eval { drop_table($dbh); }
+END { eval { drop_table($dbh); } }
 
 1;
