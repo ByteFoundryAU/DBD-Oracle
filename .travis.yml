@@ -162,6 +162,55 @@ matrix:
         - ORACLE_USERID_2=mspiggy/barfoo
         - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
 
+# Perl 5.10 variations
+    - perl: '5.10'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.10'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.10-shrplib'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.10-shrplib'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.10-extras'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.10-extras'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
 # Test without database, all tests should skip
     - perl: '5.26'
       env:
