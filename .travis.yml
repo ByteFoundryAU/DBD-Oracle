@@ -21,6 +21,7 @@ addons:
     packages:
       - unzip
       - libaio1
+      - cppcheck
 
 matrix:
   fast_finish: true
@@ -197,6 +198,7 @@ before_script:
 script:
   - perl Makefile.PL
   - make
+  - cppcheck --quiet --error-exitcode=1
 #  - make test
   - prove -bv -r -s -j1 $(test-files)
   - ORACLE_USERID_2="" prove -bv t/60reauth.t
