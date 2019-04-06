@@ -162,6 +162,105 @@ matrix:
         - ORACLE_USERID_2=mspiggy/barfoo
         - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
 
+# Perl 5.14 variations
+    - perl: '5.14'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.14'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.14-shrplib'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.14-shrplib'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.14-extras'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.14-extras'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+
+# Perl 5.12 variations
+    - perl: '5.12'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.12'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.12-shrplib'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.12-shrplib'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.12-extras'
+      env:
+        - ORACLEV=11.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
+    - perl: '5.12-extras'
+      env:
+        - ORACLEV=12.2
+        - ORACLEDBV=11.2
+        - ORACLE_USERID=kermit/foobar
+        - ORACLE_USERID_2=mspiggy/barfoo
+        - ORACLE_DSN='dbi:Oracle://localhost:1521/XE'
+
 # Perl 5.10 variations
     - perl: '5.10'
       env:
