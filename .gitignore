@@ -14,3 +14,4 @@ oci8.o
 DBD-Oracle*
 project.vim
 cpanfile
+.build
