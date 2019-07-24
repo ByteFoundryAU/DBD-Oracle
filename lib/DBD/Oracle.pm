@@ -136,7 +136,7 @@ package DBD::Oracle;
           # XXX experimental, will probably change
           $drh->trace_msg("Trying to fetch ORACLE_HOME and ORACLE_SID from the registry.\n")
                if $debug;
-          my $sid = DBD::Oracle::ora_env_var("ORACLE_SID");
+          my $sid = DBD::Oracle::ora_env_var('ORACLE_SID');
           $dbnames{$sid} = $oracle_home if $sid and $oracle_home;
           $drh->trace_msg("Found $sid \@ $oracle_home.\n") if $debug && $sid;
         }
@@ -157,7 +157,7 @@ package DBD::Oracle;
         }
 
         # get list of 'remote' database connection identifiers
-        my @tns_admin = ( DBD::Oracle::ora_env_var("TNS_ADMIN"), '.' );
+        my @tns_admin = ( DBD::Oracle::ora_env_var('TNS_ADMIN'), '.' );
         push @tns_admin, map { join '/', $oracle_home, $_ }
                          'network/admin',        # OCI 7 and 8.1
                          'net80/admin',            # OCI 8.0
@@ -245,7 +245,7 @@ package DBD::Oracle;
         $dbname = $1 if !$dbname && $user && $user =~ s/\@(.*)//s;
 
         $drh->trace_msg("$ORACLE_ENV environment variable not set\n")
-               if !$ENV{$ORACLE_ENV} and $^O ne "MSWin32";
+               if !$ENV{$ORACLE_ENV} and $^O ne 'MSWin32';
 
         # create a 'blank' dbh
 
@@ -274,14 +274,14 @@ package DBD::Oracle;
         if (exists $ENV{ORA_DRCP_CLASS}) {
            $attr->{ora_drcp_class} = $ENV{ORA_DRCP_CLASS}
         }
-        if($attr->{ora_drcp_class}){
+        if ($attr->{ora_drcp_class}) {
         # if using ora_drcp_class it cannot contain more than 1024 bytes
         # and cannot contain a *
            if (index($attr->{ora_drcp_class},'*') !=-1){
-               Carp::croak("ora_drcp_class cannot contain a '*'!");
+               Carp::croak(q{ora_drcp_class cannot contain a '*'!});
            }
            if (length($attr->{ora_drcp_class}) > 1024){
-               Carp::croak("ora_drcp_class must be less than 1024 characters!");
+               Carp::croak(q{ora_drcp_class must be less than 1024 characters!});
            }
         }
         if (exists $ENV{ORA_DRCP_MIN}) {
@@ -306,10 +306,10 @@ package DBD::Oracle;
         }
 
         {
-           local @SIG{ @{ $attr->{ora_connect_with_default_signals} } }
-          if $attr->{ora_connect_with_default_signals};
-           DBD::Oracle::db::_login($dbh, $dbname, $user, $auth, $attr)
-              or return undef;
+            local @SIG{ @{ $attr->{ora_connect_with_default_signals} } }
+                if $attr->{ora_connect_with_default_signals};
+            DBD::Oracle::db::_login($dbh, $dbname, $user, $auth, $attr)
+                or return undef;
         }
 
         unless (length $user_only) {
@@ -330,15 +330,15 @@ package DBD::Oracle;
             # these two are just for backwards compatibility
             $dbh_inner->{USER} = $dbh_inner->{CURRENT_USER} = uc $user_only;
         }
-        if ($ENV{ORA_DBD_NCS_BUFFER}){
-            $dbh->{'ora_ncs_buff_mtpl'}= $ENV{ORA_DBD_NCS_BUFFER};
+        if ($ENV{ORA_DBD_NCS_BUFFER})i {
+            $dbh->{'ora_ncs_buff_mtpl'} = $ENV{ORA_DBD_NCS_BUFFER};
         }
         $dbh;
 
     }
 
-     sub private_attribute_info {
-            return { ora_home_key=>undef};
+    sub private_attribute_info {
+        return { ora_home_key => undef };
     }
 
 }
@@ -350,7 +350,7 @@ package DBD::Oracle;
     use DBI qw(:sql_types);
 
     sub prepare {
-        my($dbh, $statement, @attribs)= @_;
+        my ($dbh, $statement, @attribs) = @_;
 
         # create a 'blank' sth
 
@@ -379,7 +379,7 @@ package DBD::Oracle;
         eval {
             local $SIG{__DIE__};
             local $SIG{__WARN__};
-            $ok=ora_ping($dbh);
+            $ok = ora_ping($dbh);
         };
         return ($@) ? 0 : $ok;
     }
@@ -394,37 +394,38 @@ package DBD::Oracle;
     }
 
     sub private_attribute_info { #this should only be for ones that have setters and getters
-        return { ora_max_nested_cursors        => undef,
-                 ora_array_chunk_size        => undef,
-                 ora_ph_type               => undef,
-                 ora_ph_csform               => undef,
+        return {
+                 ora_max_nested_cursors => undef,
+                 ora_array_chunk_size   => undef,
+                 ora_ph_type            => undef,
+                 ora_ph_csform          => undef,
                  ora_parse_error_offset => undef,
-                 ora_dbh_share               => undef,
-                 ora_envhp               => undef,
-                 ora_svchp               => undef,
-                 ora_errhp               => undef,
-                 ora_init_mode               => undef,
-                 ora_events               => undef,
-                 ora_charset               => undef,
-                 ora_ncharset               => undef,
-                 ora_session_mode        => undef,
-                 ora_verbose               => undef,
-                 ora_oci_success_warn        => undef,
-                 ora_objects               => undef,
-                 ora_ncs_buff_mtpl        => undef,
+                 ora_dbh_share          => undef,
+                 ora_envhp              => undef,
+                 ora_svchp              => undef,
+                 ora_errhp              => undef,
+                 ora_init_mode          => undef,
+                 ora_events             => undef,
+                 ora_charset            => undef,
+                 ora_ncharset           => undef,
+                 ora_session_mode       => undef,
+                 ora_verbose            => undef,
+                 ora_oci_success_warn   => undef,
+                 ora_objects            => undef,
+                 ora_ncs_buff_mtpl      => undef,
                  ora_drcp               => undef,
-                 ora_drcp_class               => undef,
-                 ora_drcp_min               => undef,
-                 ora_drcp_max               => undef,
-                 ora_drcp_incr               => undef,
-                 ora_drcp_rlb               => undef,
-                 ora_oratab_orahome        => undef,
+                 ora_drcp_class         => undef,
+                 ora_drcp_min           => undef,
+                 ora_drcp_max           => undef,
+                 ora_drcp_incr          => undef,
+                 ora_drcp_rlb           => undef,
+                 ora_oratab_orahome     => undef,
                  ora_module_name        => undef,
                  ora_driver_name        => undef,
                  ora_client_info        => undef,
-                 ora_client_identifier        => undef,
-                 ora_action               => undef,
-                 ora_taf_function        => undef,
+                 ora_client_identifier  => undef,
+                 ora_action             => undef,
+                 ora_taf_function       => undef,
                  };
     }
 
@@ -521,7 +522,7 @@ SQL
                              if ($table_type !~ /^'.*'$/) {
                                     $table_type = "'" . $table_type . "'";
                              }
-                             $table_type_list = join(", ", @ttype_list);
+                             $table_type_list = join(', ', @ttype_list);
                       }
                       push @Where, "TABLE_TYPE IN ($table_type_list)";
                }
@@ -530,8 +531,10 @@ SQL
         }
         my $sth = $dbh->prepare($SQL) or return undef;
         $sth->execute or return undef;
-        $sth;
-}
+
+        return $sth
+
+    } # sub table_info
 
 
     sub primary_key_info {
@@ -566,8 +569,10 @@ SQL
 #warn "@_\n$Sql ($schema, $table)";
         my $sth = $dbh->prepare($SQL) or return undef;
         $sth->execute($schema, $table) or return undef;
-        $sth;
-}
+
+        return $sth
+
+    } # sub primary_key_info
 
     sub foreign_key_info {
         my $dbh  = shift;
@@ -623,8 +628,10 @@ SQL
         $SQL .= " ORDER BY UK_TABLE_SCHEM, UK_TABLE_NAME, FK_TABLE_SCHEM, FK_TABLE_NAME, ORDINAL_POSITION\n";
         my $sth = $dbh->prepare( $SQL ) or return undef;
         $sth->execute( @BindVals ) or return undef;
-        $sth;
-    }
+
+        return $sth
+
+    } # sub foreign_key_info
 
 
     sub column_info {
@@ -642,7 +649,8 @@ CASE WHEN tc.DATA_TYPE LIKE 'TIMESTAMP% WITH% TIME ZONE' THEN 95
 ELSE
 SQL
             $typecaseend = 'END';
-        } elsif ($ora_server_version->[0] >= 11) {
+        }
+        elsif ($ora_server_version->[0] >= 11) {
             # rt91217 CHOOSE hint deprecated
             $choose = '';
         }
@@ -806,8 +814,10 @@ SQL
         return undef if not $sth;
 
         $sth->execute( @BindVals ) or return undef;
-        $sth;
-    }
+
+        return $sth
+
+    } # sub column_info
 
     sub statistics_info {
         my($dbh, $catalog, $schema, $table, $unique_only, $quick) = @_;
@@ -868,8 +878,10 @@ SELECT *
 SQL
         my $sth = $dbh->prepare($SQL) or return undef;
         $sth->execute($schema, $table, $unique_only ?'UNIQUE':'%') or return undef;
-        $sth;
-    }
+
+        return $sth
+
+    } # sub statistics_info
 
     sub type_info_all {
         my ($dbh) = @_;
@@ -914,88 +926,89 @@ SQL
             [ 'DECIMAL',         SQL_DECIMAL,       38,        undef,undef,
                'precision,scale',1,0,3,0,    0,0,
                'DECIMAL',         0,    38,   SQL_DECIMAL,      undef,10,   undef, ],
-            [ "DOUBLE PRECISION",SQL_DOUBLE,        15,        undef,undef,
+            [ 'DOUBLE PRECISION',SQL_DOUBLE,        15,        undef,undef,
                undef, 1,0,3,0,    0,0,
-               "DOUBLE PRECISION",undef,undef,SQL_DOUBLE,       undef,10,   undef, ],
-            [ "DATE",            SQL_TYPE_TIMESTAMP,19,        "'",  "'",
+               'DOUBLE PRECISION',undef,undef,SQL_DOUBLE,       undef,10,   undef, ],
+            [ 'DATE',            SQL_TYPE_TIMESTAMP,19,        "'",  "'",
                undef,            1,0,3,undef,0,0,
-               "DATE",            0,    0,    SQL_DATE,         3,    undef,undef, ],
-            [ "VARCHAR2",        SQL_VARCHAR,       $vc2len,   "'",  "'",
-               "max length",     1,1,3,undef,0,0,
-               "VARCHAR2",        undef,undef,SQL_VARCHAR,      undef,undef,undef, ],
-            [ "BLOB",            SQL_BLOB, 2147483647,"'",  "'",
+               'DATE',            0,    0,    SQL_DATE,         3,    undef,undef, ],
+            [ 'VARCHAR2',        SQL_VARCHAR,       $vc2len,   "'",  "'",
+               'max length',     1,1,3,undef,0,0,
+               'VARCHAR2',        undef,undef,SQL_VARCHAR,      undef,undef,undef, ],
+            [ 'BLOB',            SQL_BLOB, 2147483647,"'",  "'",
                 undef,            1,1,0,undef,0,undef,
-               "BLOB",            undef,undef,SQL_LONGVARBINARY,undef,undef,undef, ],
-            [ "BFILE",           -9114, 2147483647,"'",  "'",
+               'BLOB',            undef,undef,SQL_LONGVARBINARY,undef,undef,undef, ],
+            [ 'BFILE',           -9114, 2147483647,"'",  "'",
                undef,            1,1,0,undef,0,undef,
-               "BFILE",           undef,undef,SQL_LONGVARBINARY,undef,undef,undef, ],
-            [ "CLOB",            SQL_CLOB,   2147483647,"'",  "'",
+               'BFILE',           undef,undef,SQL_LONGVARBINARY,undef,undef,undef, ],
+            [ 'CLOB',            SQL_CLOB,   2147483647,"'",  "'",
                undef,            1,1,0,undef,0,undef,
-               "CLOB",            undef,undef,SQL_LONGVARCHAR,  undef,undef,undef, ],
-               ["TIMESTAMP WITH TIME ZONE",       # type name
+               'CLOB',            undef,undef,SQL_LONGVARCHAR,  undef,undef,undef, ],
+               ['TIMESTAMP WITH TIME ZONE',       # type name
                       SQL_TYPE_TIMESTAMP_WITH_TIMEZONE,       # data type
-                      40,              # column size
-                      "TIMESTAMP'",       # literal prefix
-                      "'",              # literal suffix
-                      "precision",       # create params
+                      40,             # column size
+                      "TIMESTAMP'",   # literal prefix
+                      "'",            # literal suffix
+                      'precision',    # create params
                       1,              # nullable
                       0,              # case sensitive
                       3,              # searchable
-                      undef,              # unsigned attribute
+                      undef,          # unsigned attribute
                       0,              # fixed prec scale
                       0,              # auto unique value
-                      undef,              # local type name
+                      undef,          # local type name
                       0,              # minimum scale
                       6,              # maximum scale
-                      SQL_TIMESTAMP,       # sql data type
+                      SQL_TIMESTAMP,  # sql data type
                       5,              # sql datetime sub
-                      undef,              # num prec radix
-                      undef,              # interval precision
+                      undef,          # num prec radix
+                      undef,          # interval precision
                ],
-               [ "INTERVAL DAY TO SECOND",       # type name
+               [ 'INTERVAL DAY TO SECOND',       # type name
                       SQL_INTERVAL_DAY_TO_SECOND,       # data type
                       22,                            # column size       '+00 11:12:10.222222200'
-                      "INTERVAL'",       # literal prefix
-                      "'",              # literal suffix
-                      "precision",       # create params
+                      "INTERVAL'",    # literal prefix
+                      "'",            # literal suffix
+                      'precision',    # create params
                       1,              # nullable
                       0,              # case sensitive
                       3,              # searchable
-                      undef,              # unsigned attribute
+                      undef,          # unsigned attribute
                       0,              # fixed prec scale
                       0,              # auto unique value
-                      undef,              # local type name
+                      undef,          # local type name
                       0,              # minimum scale
                       9,              # maximum scale
-                      SQL_INTERVAL,       # sql data type
-                      10,              # sql datetime sub
-                      undef,              # num prec radix
-                      undef,              # interval precision
+                      SQL_INTERVAL,   # sql data type
+                      10,             # sql datetime sub
+                      undef,          # num prec radix
+                      undef,          # interval precision
                ],
-               [ "INTERVAL YEAR TO MONTH",       # type name
+               [ 'INTERVAL YEAR TO MONTH',       # type name
                       SQL_INTERVAL_YEAR_TO_MONTH,       # data type
-                      13,              # column size        '+012345678-01'
-                      "INTERVAL'",       # literal prefix
-                      "'",              # literal suffix
-                      "precision",       # create params
+                      13,             # column size        '+012345678-01'
+                      "INTERVAL'",    # literal prefix
+                      "'",            # literal suffix
+                      'precision',    # create params
                       1,              # nullable
                       0,              # case sensitive
                       3,              # searchable
-                      undef,              # unsigned attribute
+                      undef,          # unsigned attribute
                       0,              # fixed prec scale
                       0,              # auto unique value
-                      undef,              # local type name
+                      undef,          # local type name
                       0,              # minimum scale
                       9,              # maximum scale
-                      SQL_INTERVAL,       # sql data type
+                      SQL_INTERVAL,   # sql data type
                       7,              # sql datetime sub
-                      undef,              # num prec radix
-                      undef,              # interval precision
+                      undef,          # num prec radix
+                      undef,          # interval precision
                ]
           ];
 
-        return $type_info_all;
-    }
+        return $type_info_all
+
+    } # sub type_info_all
 
     sub plsql_errstr {
         # original version thanks to Bob Menteer
@@ -1023,15 +1036,15 @@ SQL
     sub dbms_output_enable {
         my ($dbh, $buffersize) = @_;
         $buffersize ||= 20000;       # use oracle 7.x default
-        $dbh->do("begin dbms_output.enable(:1); end;", undef, $buffersize);
+        $dbh->do('begin dbms_output.enable(:1); end;', undef, $buffersize);
     }
 
     sub dbms_output_get {
         my $dbh = shift;
-        my $sth = $dbh->prepare_cached("begin dbms_output.get_line(:l, :s); end;")
+        my $sth = $dbh->prepare_cached('begin dbms_output.get_line(:l, :s); end;')
                or return;
         my ($line, $status, @lines);
-        my $version = join ".", @{ ora_server_version($dbh) }[0..1];
+        my $version = join '.', @{ ora_server_version($dbh) }[0..1];
         my $len =  32767;
         if ($version < 10.2){
             $len = 400;
@@ -1050,7 +1063,7 @@ SQL
 
     sub dbms_output_put {
         my $dbh = shift;
-        my $sth = $dbh->prepare_cached("begin dbms_output.put_line(:1); end;")
+        my $sth = $dbh->prepare_cached('begin dbms_output.put_line(:1); end;')
                or return;
         my $line;
         foreach $line (@_) {
@@ -1066,9 +1079,9 @@ SQL
             begin dbms_msgpipe.get_request(:returnpipe, :proc, :param); end;
         }) or return;
         my $msg = ['','',''];
-        $sth->bind_param_inout(":returnpipe", \$msg->[0],   30);
-        $sth->bind_param_inout(":proc",       \$msg->[1],   30);
-        $sth->bind_param_inout(":param",      \$msg->[2], 4000);
+        $sth->bind_param_inout(':returnpipe', \$msg->[0],   30);
+        $sth->bind_param_inout(':proc',       \$msg->[1],   30);
+        $sth->bind_param_inout(':param',      \$msg->[2], 4000);
         $sth->execute or return undef;
         return $msg;
     }
@@ -1094,7 +1107,7 @@ SELECT banner
   WHERE banner LIKE ? OR banner LIKE ?
 SQL
         if (defined $banner) {
-            my @version = $banner =~ /(?:^|\s)(\d+)\.(\d+)\.(\d+)\.(\d+)\.(\d+)(?:\s|$)/;
+            my @version = $banner =~ m/(?:^|\s)(\d+)\.(\d+)\.(\d+)\.(\d+)\.(\d+)(?:\s|$)/;
             $dbh->{ora_server_version} = \@version if @version;
         }
 
@@ -1148,8 +1161,10 @@ SQL
    sub bind_param_inout_array {
         my $sth = shift;
         my ($p_id, $value_array,$maxlen, $attr) = @_;
-        return $sth->set_err($DBI::stderr, "Value for parameter $p_id must be an arrayref, not a ".ref($value_array))
-           if defined $value_array and ref $value_array and ref $value_array ne 'ARRAY';
+        return $sth->set_err( $DBI::stderr,
+           sprintf( 'Value for parameter %s must be an arrayref, not a %s',
+                   $p_id, ref $value_array || 'string' ) )
+           if ref $value_array ne 'ARRAY';
 
         return $sth->set_err($DBI::stderr, "Can't use named placeholder '$p_id' for non-driver supported bind_param_inout_array")
            unless DBI::looks_like_number($p_id); # because we rely on execute(@ary) here
@@ -1162,7 +1177,6 @@ SQL
 
         $$hash_of_arrays{$p_id} = $value_array;
         return ora_bind_param_inout_array($sth, $p_id, $value_array,$maxlen, $attr);
-        1;
 
     }
 
@@ -1171,11 +1185,11 @@ SQL
        my ($sth, $fetch_tuple_sub, $tuple_status) = @_;
        my $row_count = 0;
        my $err_total = 0;
-       my $tuple_count="0E0";
+       my $tuple_count = "0E0";
        my $tuple_batch_status;
        my $dbh = $sth->{Database};
-       my $batch_size =($dbh->{'ora_array_chunk_size'}||= 1000);
-       if(defined($tuple_status)) {
+       my $batch_size = ( $dbh->{'ora_array_chunk_size'} || 1_000 );
+       if (defined($tuple_status)) {
            @$tuple_status = ();
            $tuple_batch_status = [ ];
        }
@@ -1206,13 +1220,14 @@ SQL
 
            $err_total += $err_count;
 
-           $tuple_count+=@tuple_batch;
+           $tuple_count += @tuple_batch;
            push @$tuple_status, @$tuple_batch_status
-                if defined($tuple_status);
+                if defined $tuple_status;
 
            last if !$finished;
 
        }
+
        #error check here
        return $sth->set_err($DBI::stderr, "executing $tuple_count generated $err_total errors")
                   if $err_total;
